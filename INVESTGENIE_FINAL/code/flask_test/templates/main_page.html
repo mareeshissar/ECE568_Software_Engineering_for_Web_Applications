@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>INVEST GENIE</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://cdn.anychart.com/releases/v8/js/anychart-stock.min.js" type="text/javascript"></script>
+<script src=" {{ url_for('static', filename='stock.js') }} "></script>
+
+
+        <style>
+#chartdiv {
+  width: 60%;
+  height: 500px;
+}
+</style>
+        <style>
+#chartdiv1 {
+  width: 60%;
+  height: 100px;
+}
+</style>
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+  <script>
+am4core.ready(function() {
+
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+var chart = am4core.create("chartdiv", am4charts.XYChart);
+
+// Export
+chart.exporting.menu = new am4core.ExportMenu();
+
+
+chart.paddingRight = 20;
+
+chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.renderer.grid.template.location = 0;
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.tooltip.disabled = true;
+
+var series = chart.series.push(new am4charts.CandlestickSeries());
+series.dataFields.dateX = "date";
+series.dataFields.valueY = "close";
+series.dataFields.openValueY = "open";
+series.dataFields.lowValueY = "low";
+series.dataFields.highValueY = "high";
+series.simplifiedProcessing = true;
+series.tooltipText = "Open:${openValueY.value}\nLow:${lowValueY.value}\nHigh:${highValueY.value}\nClose:${valueY.value}";
+
+chart.cursor = new am4charts.XYCursor();
+
+// a separate series for scrollbar
+var lineSeries = chart.series.push(new am4charts.LineSeries());
+lineSeries.dataFields.dateX = "date";
+lineSeries.dataFields.valueY = "close";
+// need to set on default state, as initially series is "show"
+lineSeries.defaultState.properties.visible = false;
+
+// hide from legend too (in case there is one)
+lineSeries.fillOpacity = 0.5;
+lineSeries.strokeOpacity = 0.5;
+
+var scrollbarX = new am4charts.XYChartScrollbar();
+scrollbarX.series.push(lineSeries);
+chart.scrollbarX = scrollbarX;
+
+<!--{% if chart_data %}-->
+<!--    chart.data = {{ chart_data }};-->
+<!--    document.getElementById("demo").innerHTML="got json";-->
+<!--    {% for data in char_data %}-->
+<!--    {{ data }}-->
+<!--    {%endfor%}-->
+<!--{% else %}-->
+<!--{% endif %}-->
+
+
+<!--chart.data = [ {-->
+<!--    "date": "1",-->
+<!--    "open": "136.65",-->
+<!--    "high": "136.96",-->
+<!--    "low": "134.15",-->
+<!--    "close": "136.49"-->
+
+
+<!--  }, {-->
+<!--    "date": "2",-->
+<!--    "open": "135.26",-->
+<!--    "high": "135.95",-->
+<!--    "low": "131.50",-->
+<!--    "close": "131.85"-->
+
+
+<!--  }, {-->
+<!--    "date": "3",-->
+<!--    "open": "132.90",-->
+<!--    "high": "135.27",-->
+<!--    "low": "128.30",-->
+<!--    "close": "135.25"-->
+
+<!--  }, {-->
+<!--    "date": "4",-->
+<!--    "open": "134.94",-->
+<!--    "high": "137.24",-->
+<!--    "low": "132.63",-->
+<!--    "close": "135.03"-->
+
+<!--  }];-->
+
+}); // end am4core.ready()
+</script>
+    <script>
+am4core.ready(function() {
+
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+// Create chart instance
+var chart = am4core.create("chartdiv1", am4charts.XYChart);
+
+
+// Add data
+chart.data = [{
+  "date": "2012-07-27",
+  "value": 13
+}, {
+  "date": "2012-07-28",
+  "value": 11
+}, {
+  "date": "2012-07-29",
+  "value": 15
+}, {
+  "date": "2012-07-30",
+  "value": 16
+
+}];
+
+// Set input format for the dates
+chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+
+// Create axes
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+// Create series
+var series = chart.series.push(new am4charts.LineSeries());
+series.dataFields.valueY = "value";
+series.dataFields.dateX = "date";
+series.tooltipText = "{value}"
+series.strokeWidth = 2;
+series.minBulletDistance = 15;
+
+
+chart.events.on("ready", function () {
+  dateAxis.zoom({start:0.79, end:1});
+});
+
+}); // end am4core.ready()
+</script>
+
+
+<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase.js"></script>
+<script>
+ // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBqkED0n04QohiWTuPOW3tMndNNU8sxUy8",
+    authDomain: "messages-2f289.firebaseapp.com",
+    databaseURL: "https://messages-2f289.firebaseio.com",
+    projectId: "messages-2f289",
+    storageBucket: "messages-2f289.appspot.com",
+    messagingSenderId: "374505935358"
+  };
+  firebase.initializeApp(config);
+</script>
+
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <b class="navbar-brand" href="#">INVESTGENIE</b>
+</nav>
+<!--<div id="chartdiv" style="width: 600px; height: 500px;" class="rounded float-right"></div>-->
+<!--<div id="chartdiv1" class="rounded float-right"></div>-->
+{% if stock_symbol %}
+<div>
+    <img src=" {{ url_for('static', filename=stock_symbol+period+'.png') }} " class="rounded float-right" alt="image not found">
+</div>
+
+    {% else %}
+    {% endif %}
+
+
+<br>
+
+<!--{% if stock_symbol=='GOOGLE' %}-->
+<!--    <img src=" {{ url_for('static', filename='flag.jpg') }} " class="rounded float-right" alt="image not found">-->
+<!--    {% else %}-->
+<!--    {% endif %}-->
+<form method="POST" action="/main_page">
+    <div class="form-group">
+      <label for="CompanySelected">Select a company</label>
+      <select class="form-control col-sm-5" id="CompanySelected" name="stock_symbol">
+        <option>GOOG</option>
+        <option>FB</option>
+        <option>MSFT</option>
+        <option>AAPL</option>
+        <option>NVDA</option>
+        <option>INTC</option>
+        <option>TSLA</option>
+        <option>AABA</option>
+        <option>ORCL</option>
+        <option>AMZN</option>
+      </select>
+        <label for="PeriodSelected">Select graph time period</label>
+        <select class="form-control col-sm-5" id="PeriodSelected" name="period">
+        <option>year</option>
+        <option>month</option>
+        <option>day</option>
+      </select>
+    </div>
+     <div class="form-group">
+      <label for="QuerySelected">Select a query function</label>
+      <select class="form-control col-sm-5" id="QuerySelected" name="query">
+        <option>No query selected</option>
+        <option>Query 1</option>
+        <option>Query 2</option>
+        <option>Query 3</option>
+        <option>Query 4</option>
+        <option>Query 5</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">GO</button>
+    <br>
+    The stock selected:&nbsp;&nbsp;<span id="stock"></span>
+    {% if stock_symbol %}
+    {{ stock_symbol }}
+    {% else %}
+    {% endif %}
+    <br/>
+    <br>
+    The query selected:&nbsp;&nbsp;<span id="stock"></span>
+    {% if query %}
+        {% for num in query %}
+            {{ num }}
+        {% endfor %}
+    {% else %}
+    {% endif %}
+    <br/>
+    <br>
+    The predicted value is:&nbsp;&nbsp;<span id="stock"></span>
+    {% if predicted_value %}
+    {{ predicted_value }}
+    {% else %}
+    {% endif %}
+    <br/>
+    The recommendation for this stock:&nbsp;&nbsp;<span id="recommendation"></span>
+    {% if final_prediction %}
+    {{ final_prediction }}
+    {% else %}
+    {% endif %}
+    <br/><br/>
+
+
+<!--    <ul>-->
+<!--    {% for num in values %}-->
+<!--        <li>{{ num }}</li>-->
+<!--    {% endfor %}-->
+<!--    </ul>-->
+    <ul>
+        <li>
+            Open   : {{values[0]}}
+        </li>
+        <li>
+            High   : {{values[1]}}
+        </li>
+        <li>
+            Low    : {{values[2]}}
+        </li>
+        <li>
+            Close  : {{values[3]}}
+        </li>
+        <li>
+            Volume : {{values[4]}}
+        </li>
+    </ul>
+
+
+</form>
+   <form action="/submit_message" method="post">
+        <br class="form-group">
+        <br>Comments</br>
+        <textarea class="form-control col-sm-5" placeholder="Name" name="who" rows="1"></textarea>
+        <br></br>
+        <textarea class="form-control col-sm-5" placeholder="Enter your message here" name="message" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Comment</button>
+   </form>
+<!--
+<canvas class="my-4 chartjs-render-monitor" id="myChart" width="547" height="230" style="display: block; width: 547px; height: 230px;"></canvas>
+-->
+</body>
+</html>

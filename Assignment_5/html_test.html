@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Website to calculate volume</title>
+<script src="html_testing.js">
+</script>
+</head>
+<body>
+
+<h1>This website will find the volume for a Cylinder, Sphere or Cone</h1>
+<p>Select the units (English or SI)</p>
+
+<form>
+  <input type="radio" id="r1" name="units" value="English" onchange="myUnits1()" checked> English
+  <input type="radio" id= "r2" name="units" value="SI" onchange="myUnits2()"> SI<br>
+  Select the shape
+<select id="mySelect" onchange="myShape()">
+  <option value="Cone">Cone</option>
+  <option value="Cylinder">Cylinder</option>
+  <option value="Sphere">Sphere</option>
+</select>
+<br>
+  Enter the radius
+  <input id="radius" type="text" onkeyup="myRadius()">
+
+  <br>
+   For the cylinder and cone, Enter the height
+  <input id="height" type="text" onkeyup="myHeight()">
+  <br>
+  <input type="reset" value="reset the form" onclick="myReset()">
+<p><h1>Results</h1></p>
+<p id="line_1">You have selected to use English units</p>
+<p id="line_2">You have selected to find the values for a Cone shape</p>
+<table border="1">
+  <tr>
+    <th>Shape</th>
+    <th>Radius</th>
+    <th>Height</th>
+    <th>Volume</th>
+  </tr>
+   <tr>
+    <th></th>
+    <th id="unit1">(ft)</th>
+    <th id="unit2">(ft)</th>
+    <th id="unit3">(ft^3)</th>
+  </tr>
+   <tr>
+    <th id="s">Cone</th>
+    <th id="r"></th>
+    <th id="h"></th>
+    <th id="v"></th>
+  </tr>
+</table>
+<br>
+ <button type="button" onclick="myVolume()">Click to calculate the results</button>
+</form>
+</body>
+</html>
+
+

@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  {% block head %}{% endblock %}
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='foundation.css') }}">
+
+</head>
+<body>
+  <div class="row">
+    <div class="large-12 columns">
+      {% block body %}{% endblock %}
+    </div>
+  </div>
+<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase.js"></script>
+<script>
+ // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBqkED0n04QohiWTuPOW3tMndNNU8sxUy8",
+    authDomain: "messages-2f289.firebaseapp.com",
+    databaseURL: "https://messages-2f289.firebaseio.com",
+    projectId: "messages-2f289",
+    storageBucket: "messages-2f289.appspot.com",
+    messagingSenderId: "374505935358"
+  };
+  firebase.initializeApp(config);
+</script>
+</body>
+</html>
